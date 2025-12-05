@@ -1,5 +1,5 @@
 
-import logo from "../assets/logo.png";
+import logo from "../assets/logo2.png";
 
 type HeaderProps = {
   token: string | null;

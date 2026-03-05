@@ -11,12 +11,12 @@ export default function AdminUsers({
 }) {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
+const API = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const loadUsers = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/admin/users",
+          `${API}/admin/users`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -91,3 +91,4 @@ export default function AdminUsers({
     </div>
   );
 }
+

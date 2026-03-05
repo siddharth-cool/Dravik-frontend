@@ -3,9 +3,13 @@ import axios from "axios";
 import AssetCard from "./AssetCard";
 import Sidebar from "./Sidebar";
 
-type Props = { token: string };
+type Props = {
+  token: string;
+  role: string | null;
+};
 
-export default function MyAssetsPage({ token }: Props) {
+
+export default function MyAssetsPage({ token, role }: Props) {
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const API = import.meta.env.VITE_BACKEND_URL;

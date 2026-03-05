@@ -22,7 +22,7 @@ export default function Dashboard({
   useEffect(() => {
 
   axios
-    .get(`${API}/assets', {
+    .get(`${API}/assets`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => setAssets(res.data.assets))

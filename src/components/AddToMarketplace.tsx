@@ -15,9 +15,11 @@ interface Asset {
 
 interface Props {
   token: string;
+  role: string | null;
 }
 
-export default function AddToMarketplace({ token }: Props) {
+
+export default function AddToMarketplace({ token, role }: Props) {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState(true);
   const [listingPrices, setListingPrices] = useState<Record<string, number>>({});
@@ -84,7 +86,8 @@ const API = import.meta.env.VITE_BACKEND_URL;
 
 return (
   <div className="flex">
-    <Sidebar />
+    <Sidebar role={role} />
+
     <div className="flex-1 p-6">
       {/* Section Title */}
       <h1 className="text-2xl font-bold mb-6">Add to Marketplace</h1>
@@ -117,16 +120,29 @@ return (
                   disabled={asset.listed}
                 />
                 <button
-                  onClick={() => handleList(asset.ipId)}
-                  className={`w-full py-2 rounded-lg text-white text-sm font-medium transition-all ${
-                    asset.listed
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-green-600 hover:bg-green-500"
-                  }`}
-                  disabled={asset.listed}
-                >
-                  {asset.listed ? "Already Listed" : "List in Marketplace"}
-                </button>
+  onClick={() => handleList(asset.ipId)}
+  disabled={asset.listed}
+  className={`w-full px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg ${
+    asset.listed
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-green-600 hover:bg-green-500"
+  }`}
+>
+  {/* Tag Icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M3 11l8-8 10 10-8 8L3 11z" />
+  </svg>
+
+  {asset.listed ? "Already Listed" : "List in Marketplace"}
+</button>
+
               </div>
             </div>
           ))}

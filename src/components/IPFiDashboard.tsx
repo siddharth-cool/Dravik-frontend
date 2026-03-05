@@ -22,9 +22,11 @@ interface Asset {
 
 interface Props {
   token: string;
+  role: string | null;
 }
 
-export default function IPFiDashboard({ token }: Props) {
+
+export default function IPFiDashboard({ token, role }: Props) {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [loading, setLoading] = useState<string | null>(null); // ipId being processed
   const API = import.meta.env.VITE_BACKEND_URL;

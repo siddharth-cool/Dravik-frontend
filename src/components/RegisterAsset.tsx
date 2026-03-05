@@ -44,8 +44,7 @@ export default function RegisterAsset({ token, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
   const [usePizzaDAO, setUsePizzaDAO] = useState(false);
   const [selectedPizza, setSelectedPizza] = useState<any>(null);
-  const API = import.meta.env.VITE_BACKEND_URL;
-  
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -61,6 +60,7 @@ export default function RegisterAsset({ token, onSuccess }: Props) {
   const [image, setImage] = useState<File | null>(null);
   const [media, setMedia] = useState<File | null>(null);
   const [errors, setErrors] = useState<any>({});
+const API = import.meta.env.VITE_BACKEND_URL;
 
   // Autofill PizzaDAO asset metadata & license terms
   useEffect(() => {
@@ -352,16 +352,30 @@ export default function RegisterAsset({ token, onSuccess }: Props) {
 
       {/* BUTTON */}
       <button
-        type="submit"
-        disabled={loading || (usePizzaDAO && !selectedPizza)}
-        className={`w-full py-3 rounded-xl text-white font-bold transition-all ${
-          loading
-            ? "bg-gray-400 cursor-not-allowed opacity-60"
-            : "bg-sky-600 hover:bg-sky-500 active:bg-sky-700"
-        }`}
-      >
-        {loading ? "Registering..." : "Register IP Asset"}
-      </button>
+  type="submit"
+  disabled={loading || (usePizzaDAO && !selectedPizza)}
+  className={`w-full px-6 py-3 rounded-xl text-white font-semibold transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg ${
+    loading || (usePizzaDAO && !selectedPizza)
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-sky-600 hover:bg-sky-500 active:bg-sky-700"
+  }`}
+>
+  {/* Upload Icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-5 h-5"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v12m0 0l-3-3m3 3l3-3" />
+  </svg>
+
+  {loading ? "Registering..." : "Register IP Asset"}
+</button>
+
     </form>
   );
 }

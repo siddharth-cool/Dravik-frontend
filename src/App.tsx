@@ -39,7 +39,7 @@ const API = import.meta.env.VITE_BACKEND_URL;
     }
 
     axios
-      .get(`${API}/me', {
+      .get(`${API}/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setUser(res.data))

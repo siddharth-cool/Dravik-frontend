@@ -16,7 +16,7 @@ export default function Dashboard({
   
   const [assets, setAssets] = useState<any[]>([]);
   const [loadingAssets, setLoadingAssets] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  
    const API = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {

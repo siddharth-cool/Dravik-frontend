@@ -8,7 +8,7 @@ type Props = {
 };
 
 
-export default function RegisterAssetPage({ token, role }: Props)
+export default function RegisterAssetPage({ token, role }: Props){
   return (
     <div><Sidebar />
     <div className="max-w-4xl mx-auto mt-12 space-y-8">

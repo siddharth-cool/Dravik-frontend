@@ -3,27 +3,32 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
 
-export default function Dashboard({ token }: { token: string }) {
-  const [user, setUser] = useState<any>(null);
+export default function Dashboard({
+  token,
+  role,
+  user
+}: {
+  token: string;
+  role: string | null;
+  user: any;
+})
+ {
+  
   const [assets, setAssets] = useState<any[]>([]);
   const [loadingAssets, setLoadingAssets] = useState(true);
-  const API = import.meta.env.VITE_BACKEND_URL;
-  
-  useEffect(() => {
-    axios
-      .get(`${API}/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setUser(res.data))
-      .catch(console.error);
+  const [isAdmin, setIsAdmin] = useState(false);
+   const API = import.meta.env.VITE_BACKEND_URL;
 
-    axios
-      .get(`${API}/assets`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setAssets(res.data.assets))
-      .finally(() => setLoadingAssets(false));
-  }, [token]);
+  useEffect(() => {
+
+  axios
+    .get(`${API}/assets', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => setAssets(res.data.assets))
+    .finally(() => setLoadingAssets(false));
+}, [token]);
+
 
   const profileImage = assets[0]?.imageUrl || "https://via.placeholder.com/120";
 
@@ -37,7 +42,8 @@ export default function Dashboard({ token }: { token: string }) {
 
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar role={user?.role || null} />
+
 
       <div className="flex-1 max-w-4xl mx-auto mt-20 px-6 space-y-8">
         {/* Welcome Card with Profile Image */}
@@ -93,20 +99,79 @@ export default function Dashboard({ token }: { token: string }) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-center gap-6 mt-6">
-          <Link
-            to="/register"
-            className="bg-sky-600 px-6 py-3 rounded-xl text-white hover:bg-sky-500 transition"
-          >
-            Register New Asset
-          </Link>
-          <Link
-            to="/assets"
-            className="bg-gray-900 px-6 py-3 rounded-xl text-white hover:bg-gray-700 transition"
-          >
-            View My Assets
-          </Link>
-        </div>
+        {/* Action Buttons */}
+<div className="flex justify-center gap-4 mt-8 flex-wrap">
+
+  {role === "admin" && (
+    <Link
+      to="/admin"
+      className="bg-red-600 px-6 py-3 no-underlinerounded-xl text-white hover:bg-red-500 transition flex items-center gap-2 shadow-md hover:shadow-lg"
+    >
+      {/* Shield Icon */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
+        />
+      </svg>
+      Admin Panel
+    </Link>
+  )}
+
+  <Link
+    to="/register"
+    className="bg-sky-600 px-6 py-3 no-underline rounded-xl text-white hover:bg-sky-500 transition flex items-center gap-2 shadow-md hover:shadow-lg"
+  >
+    {/* Plus Icon */}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-5 h-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 4v16m8-8H4"
+      />
+    </svg>
+    Register New Asset
+  </Link>
+
+  <Link
+    to="/assets"
+    className="bg-gray-900 px-6 py-3 no-underline rounded-xl text-white hover:bg-gray-700 transition flex items-center gap-2 shadow-md hover:shadow-lg"
+  >
+    {/* Folder Icon */}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-5 h-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 7h5l2 3h11v9H3V7z"
+      />
+    </svg>
+    View My Assets
+  </Link>
+
+</div>
+
       </div>
     </div>
   );

@@ -18,13 +18,13 @@ export default function AdminTickets({
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 5;
-
+const API = import.meta.env.VITE_BACKEND_URL;
   const loadTickets = async (currentPage = 1) => {
     try {
       setLoading(true);
 
       const res = await axios.get(
-        `http://localhost:5000/admin/tickets?page=${currentPage}&limit=${limit}`,
+        `${API}/admin/tickets?page=${currentPage}&limit=${limit}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -54,7 +54,7 @@ export default function AdminTickets({
       setSendingId(ticketId);
 
       await axios.post(
-        "http://localhost:5000/admin/ticket/reply",
+        `${API}//admin/ticket/reply`,
         { ticketId, reply },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -72,7 +72,7 @@ export default function AdminTickets({
   const updateStatus = async (ticketId: number, status: string) => {
     try {
       await axios.post(
-        "http://localhost:5000/admin/ticket/status",
+        `${API}/admin/ticket/status`,
         { ticketId, status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -87,7 +87,7 @@ export default function AdminTickets({
   const closeTicket = async (ticketId: number) => {
     try {
       await axios.post(
-        "http://localhost:5000/admin/ticket/close",
+        `${API}/admin/ticket/close`,
         { ticketId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -293,3 +293,4 @@ export default function AdminTickets({
     </div>
   );
 }
+

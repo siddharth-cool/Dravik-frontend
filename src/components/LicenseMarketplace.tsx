@@ -17,18 +17,18 @@ interface Listing {
 
 interface Props {
   token: string;
+  role: string | null;
 }
 
-export default function LicenseMarketplace({ token }: Props) {
+
+export default function LicenseMarketplace({ token, role }: Props) {
   const [listings, setListings] = useState<Listing[]>([]);
   const [serverWallet, setServerWallet] = useState<string>("");
   const [processingId, setProcessingId] = useState<number | null>(null);
-  const API = import.meta.env.VITE_BACKEND_URL;
-  
- useEffect(() => {
-    axios.get(`${API}/wallet/server`,{
-        headers: { Authorization: `Bearer ${token}` },
-      }).then((res) => { 
+const API = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    axios.get(`${API}/wallet/server`).then((res) => {
       setServerWallet(res.data.wallet);
     });
   }, []);
@@ -111,7 +111,7 @@ export default function LicenseMarketplace({ token }: Props) {
 
   return (
     <div className="flex">
-      <Sidebar />
+      <Sidebar role={role} />
       <div className="flex-1 p-6">
         <h1 className="text-2xl font-bold mb-6">License Marketplace</h1>
         {!listings.length && <p>No active listings</p>}
@@ -141,14 +141,31 @@ export default function LicenseMarketplace({ token }: Props) {
               </div>
 
               <button
-                onClick={() => buyLicense(l.id, l.price)}
-                disabled={processingId === l.id}
-                className={`mt-4 w-full text-white py-2 rounded-lg font-medium transition-all
-                  ${processingId === l.id ? "bg-gray-400 cursor-not-allowed" : "bg-sky-600 hover:bg-sky-500"}
-                `}
-              >
-                {processingId === l.id ? "Processing..." : "Buy License"}
-              </button>
+  onClick={() => buyLicense(l.id, l.price)}
+  disabled={processingId === l.id}
+  className={`mt-4 w-full px-5 py-2.5 rounded-xl text-white font-semibold transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg ${
+    processingId === l.id
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-sky-600 hover:bg-sky-500"
+  }`}
+>
+  {/* Shopping Cart Icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+    <circle cx="9" cy="21" r="1" />
+    <circle cx="20" cy="21" r="1" />
+  </svg>
+
+  {processingId === l.id ? "Processing..." : "Buy License"}
+</button>
+
             </div>
           ))}
         </div>

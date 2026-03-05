@@ -9,11 +9,19 @@ type MyLicense = {
   purchasedOn: string;
 };
 
-export default function MyLicenses({ token }: { token: string }) {
+export default function MyLicenses({
+  token,
+  role,
+}: {
+  token: string;
+  role: string | null;
+})
+ {
   const [licenses, setLicenses] = useState<MyLicense[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMedia, setModalMedia] = useState<{ url: string } | null>(null);
-  const API = import.meta.env.VITE_BACKEND_URL;
+const API = import.meta.env.VITE_BACKEND_URL;
+
   async function loadLicenses() {
     try {
       const res = await axios.get<{ licenses: any[] }>(
@@ -39,7 +47,8 @@ export default function MyLicenses({ token }: { token: string }) {
   if (licenses.length === 0) {
     return (
       <div className="flex min-h-screen">
-        <Sidebar />
+        <Sidebar role={role} />
+
         <div className="flex-1 flex items-center justify-center text-center p-4 text-gray-400">
           You have not purchased any licenses.
         </div>
@@ -83,7 +92,8 @@ export default function MyLicenses({ token }: { token: string }) {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar role={role} />
+
       <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {licenses.map((item) => {
           const t = item.terms || {};
@@ -138,21 +148,45 @@ export default function MyLicenses({ token }: { token: string }) {
                     Purchased: {new Date(item.purchasedOn).toLocaleDateString()}
                   </p>
                   <a
-                    href={`https://aeneid.explorer.story.foundation/ipa/${item.ipId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block w-full bg-sky-600 text-white text-center py-1.5 rounded-md mt-2 text-xs"
-                  >
-                    View on Explorer
-                  </a>
+  href={`https://aeneid.explorer.story.foundation/ipa/${item.ipId}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-full px-4 py-2 rounded-xl text-white text-xs font-semibold mt-2 transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg bg-sky-600 hover:bg-sky-500"
+>
+  {/* External Link Icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M14 3h7v7m0-7L10 14" />
+  </svg>
+  View on Explorer
+</a>
+
 
                   {t.mediaUrl && (
                     <button
-                      onClick={() => openMediaModal(t)}
-                      className="inline-block w-full bg-gray-700 text-white text-center py-1.5 rounded-md mt-2 text-xs hover:bg-gray-600"
-                    >
-                      View Media
-                    </button>
+  onClick={() => openMediaModal(t)}
+  className="w-full px-4 py-2 rounded-xl text-white text-xs font-semibold mt-2 transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg bg-gray-900 hover:bg-gray-700"
+>
+  {/* Play Icon */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-4 h-4"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-6.518-3.753A1 1 0 007 8.25v7.5a1 1 0 001.234.97l6.518-3.747a1 1 0 000-1.805z" />
+  </svg>
+  View Media
+</button>
+
                   )}
                 </div>
               </div>
@@ -167,7 +201,7 @@ export default function MyLicenses({ token }: { token: string }) {
           <div className="bg-white rounded-lg p-4 w-[90%] max-w-md relative">
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-600 font-bold hover:text-gray-900"
+              className="absolute top-3 right-3 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center shadow transition"
             >
               ✕
             </button>

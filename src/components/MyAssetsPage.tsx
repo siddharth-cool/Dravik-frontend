@@ -31,7 +31,7 @@ export default function MyAssetsPage({ token, role }: Props) {
 
   return (
     <div>
-        <Sidebar />
+        <Sidebar role={role} />
     <div className="max-w-6xl mx-auto mt-12">
       <h2 className="text-3xl font-bold text-sky-600 mb-8">My Assets</h2>
 

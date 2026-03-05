@@ -23,7 +23,7 @@ import { Toaster } from "react-hot-toast";
 
 
 import "./App.css";
-<Toaster position="top-right" />
+
 function App() {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem("jwt") || null
@@ -64,6 +64,7 @@ const API = import.meta.env.VITE_BACKEND_URL;
   return (
     <Router>
       <div className="App bg-[#eceef3] min-h-screen text-gray-900 p-6">
+        <Toaster position="top-right" />
         <Header token={token} onLogout={handleLogout} />
 
         <main className="max-w-6xl mx-auto mt-6">

@@ -2,9 +2,13 @@
 import RegisterAsset from "./RegisterAsset";
 import Sidebar from "./Sidebar";
 
-type Props = { token: string };
+type Props = {
+  token: string;
+  role: string | null;
+};
 
-export default function RegisterAssetPage({ token }: Props) {
+
+export default function RegisterAssetPage({ token, role }: Props)
   return (
     <div><Sidebar />
     <div className="max-w-4xl mx-auto mt-12 space-y-8">
